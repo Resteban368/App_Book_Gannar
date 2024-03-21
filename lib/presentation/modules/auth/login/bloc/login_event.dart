@@ -11,6 +11,10 @@ class LoginWithGoogle extends LoginEvent {
   bool isRememberPassword;
   LoginWithGoogle({required this.isRememberPassword});
 }
+class Login extends LoginEvent {
+  bool isRememberPassword;
+  Login({required this.isRememberPassword});
+}
 
 //evento para cambiar la visibilidad de la contraseña
 class ChangeVisibility extends LoginEvent {}

@@ -24,24 +24,24 @@ class LoginScreen extends StatelessWidget {
         return BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state is LoginSuccess) {
-          GoRouter.of(context).go('/home');
-        } else if (state is LoginFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text('Usuario o contraseña incorrecta'),
-              backgroundColor: MyColors.primary,
-            ),
-          );
-        } else if (state is LoginWithGoogleSuccess) {
-          context.go('/home');
-        } else if (state is LoginWithGoogleFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text('Error al iniciar con Google'),
-              backgroundColor: MyColors.primary,
-            ),
-          );
-        }
+              context.go('/home');
+            } else if (state is LoginFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Usuario o contraseña incorrecta'),
+                  backgroundColor: MyColors.primary,
+                ),
+              );
+            } else if (state is LoginWithGoogleSuccess) {
+              context.go('/home');
+            } else if (state is LoginWithGoogleFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Error al iniciar con Google'),
+                  backgroundColor: MyColors.primary,
+                ),
+              );
+            }
           },
           child: Scaffold(
               body: AuthBackground(
@@ -169,6 +169,9 @@ class LoginForm extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   if (!formKey.currentState!.validate()) return;
+                  context.read<LoginBloc>().add(Login(
+                      isRememberPassword:
+                          context.read<LoginBloc>().rememberPassword));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: MyColors.primary,
@@ -179,12 +182,22 @@ class LoginForm extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                child: const Text("Iniciar sesión",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontFamily: "poppins",
-                    )),
+                child: BlocBuilder<LoginBloc, LoginState>(
+                  builder: (context, state) {
+                    if (state is LoginLoading) {
+                      return const CircularProgressIndicator(
+                        color: Colors.white,
+                      );
+                    }
+
+                    return const Text("Iniciar sesión",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontFamily: "poppins",
+                        ));
+                  },
+                ),
               ),
               const SizedBox(height: 10),
               BounceInUp(
@@ -193,10 +206,8 @@ class LoginForm extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     context.read<LoginBloc>().add(LoginWithGoogle(
-                        isRememberPassword: context
-                            .read<LoginBloc>()
-                            .rememberPassword
-                    ));
+                        isRememberPassword:
+                            context.read<LoginBloc>().rememberPassword));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -214,12 +225,24 @@ class LoginForm extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Iniciar con Google",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: MyColors.primary,
-                            fontFamily: "poppins",
-                          )),
+                      BlocBuilder<LoginBloc, LoginState>(
+                        builder: (context, state) {
+
+
+                          if (state is LoginWithGoogleInProgress) {
+                            return const CircularProgressIndicator(
+                              color: MyColors.primary,
+                            );
+                          }
+
+                          return const Text("Iniciar con Google",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: MyColors.primary,
+                                fontFamily: "poppins",
+                              ));
+                        },
+                      ),
                       const SizedBox(width: 10),
                       Image.asset(
                         'assets/icons/google.png',

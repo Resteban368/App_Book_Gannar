@@ -25,6 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     add(LoadLoginData());
 
     on<LoginWithGoogle>(_onLoginWithGoogle);
+    on<Login>(_onLogin);
 
     on<ChangeVisibility>(_onChangeVisibility);
     on<ToggleRememberPassword>(_onToggleRememberPassword);
@@ -58,6 +59,27 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
       } else {
         emit(LoginWithGoogleFailure());
+      }
+    } catch (e, s) {
+      print("error en el registro con google: $e ======> $s");
+    }
+  }
+
+  void _onLogin(Login event, Emitter<LoginState> emit) async {
+    try {
+      emit(LoginLoading());
+      final response = await loginRepository.loginUser(email, password);
+      if (response) {
+        if (event.isRememberPassword) {
+          _saveData(
+            password,
+            email,
+            true,
+          );
+        }
+        emit(LoginSuccess());
+      } else {
+        emit(LoginFailure());
       }
     } catch (e, s) {
       print("error en el registro con google: $e ======> $s");
