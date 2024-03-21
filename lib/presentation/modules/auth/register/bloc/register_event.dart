@@ -12,3 +12,8 @@ class RegisterBtnPressedGoogle extends RegisterEvent {
 
   RegisterBtnPressedGoogle();
 }
+
+//evento para cambiar la visibilidad de la contraseña
+class ChangeVisibility extends RegisterEvent {}
+
+

@@ -5,9 +5,9 @@ class ProfileRepository {
   final databseReference = FirebaseFirestore.instance.collection('usuarios');
 
 //meotod para obtener un usuario por su token que guarde en firebase
-  Future<User> getUserByToken(String token) async {
+  Future<User> getUserByEmail(String email) async {
     try {
-      final querySnapshot = await databseReference.where('token', isEqualTo: token).get();
+      final querySnapshot = await databseReference.where('email', isEqualTo: email).get();
       if (querySnapshot.docs.isNotEmpty) {
         return User.fromMap(querySnapshot.docs.first.data());
       }

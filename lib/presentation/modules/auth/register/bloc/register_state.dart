@@ -14,3 +14,10 @@ class RegisterFailure extends RegisterState {
   final String error;
   RegisterFailure(this.error);
 }
+
+class ChangeVisibilitySuccess extends RegisterState {
+  final bool isVisibility;
+
+  ChangeVisibilitySuccess(this.isVisibility);
+}
+

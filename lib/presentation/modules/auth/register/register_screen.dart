@@ -84,127 +84,167 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    return Form(
-        key: formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Column(
-          children: [
-            TextFormField(
-              autocorrect: false,
-              keyboardType: TextInputType.text,
-              decoration: InputDecorations.authInputDecoration(
-                  hintText: 'jhon doe',
-                  labelText: 'Nombre',
-                  prefixIcon: Icons.person),
-              //validacon para el campo email
-              validator: (value) => Validator.isEmpty(value, context),
-              onChanged: (value) {
-                context.read<RegisterBloc>().name = value;
-              },
-            ),
-            const SizedBox(height: 15),
-            TextFormField(
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecorations.authInputDecoration(
-                  hintText: 'jhon.doe@gmail.com',
-                  labelText: 'Correo electronico',
-                  prefixIcon: Icons.email),
-              //validacon para el campo email
-              validator: (value) => Validator.email(value, context),
-              onChanged: (value) {
-                context.read<RegisterBloc>().email = value;
-              },
-            ),
-            const SizedBox(height: 15),
-            TextFormField(
-              autocorrect: false,
-              obscureText: true,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecorations.authInputDecoration(
-                  hintText: '********',
-                  labelText: 'Contraseña',
-                  prefixIcon: Icons.lock),
-              validator: (value) => Validator.isEmpty(value, context),
-              onChanged: (value) {
-                context.read<RegisterBloc>().password = value;
-              },
-            ),
-            const SizedBox(height: 30),
-            BounceInUp(
-              duration: const Duration(milliseconds: 1000),
-              child: ElevatedButton(
-                onPressed: () {
-                  if (!formKey.currentState!.validate()) return;
-                  context.read<RegisterBloc>().add(RegisterBtnPressed());
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: MyColors.primary,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  minimumSize: Size(size.width * 0.8, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: BlocBuilder<RegisterBloc, RegisterState>(
-                  builder: (context, state) {
-                    if (state is RegisterLoading) {
-                      return const CircularProgressIndicator(
-                        color: Colors.white,
-                      );
-                    }
-
-                    return const Text("Registrarse",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontFamily: "poppins",
-                        ));
+    return BlocBuilder< RegisterBloc, RegisterState>(
+      builder: (context, state) {
+        return Form(
+            key: formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              children: [
+                TextFormField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecorations.authInputDecoration(
+                      hintText: 'jhon doe',
+                      labelText: 'Nombre',
+                      prefixIcon: Icons.person),
+                  //validacon para el campo email
+                  validator: (value) => Validator.isEmpty(value, context),
+                  onChanged: (value) {
+                    context.read<RegisterBloc>().name = value;
                   },
                 ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            BounceInUp(
-              delay: const Duration(milliseconds: 300),
-              duration: const Duration(milliseconds: 1000),
-              child: ElevatedButton(
-                onPressed: () {
-                  context.read<RegisterBloc>().add(RegisterBtnPressedGoogle());
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  minimumSize: Size(size.width * 0.8, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                const SizedBox(height: 15),
+                TextFormField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecorations.authInputDecoration(
+                      hintText: 'jhon.doe@gmail.com',
+                      labelText: 'Correo electronico',
+                      prefixIcon: Icons.email),
+                  //validacon para el campo email
+                  validator: (value) => Validator.email(value, context),
+                  onChanged: (value) {
+                    context.read<RegisterBloc>().email = value;
+                  },
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  autocorrect: false,
+                  obscureText: true,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecorations.authInputDecoration(
+                    hintText: '********',
+                    labelText: 'Contraseña',
+                    prefixIcon: Icons.lock,
+                    suffixIconButton: IconButton(
+                      onPressed: () {
+                        context.read<RegisterBloc>().add(ChangeVisibility());
+                      },
+                      icon: Icon(
+                        context.read<RegisterBloc>().isVisibility
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: MyColors.primary,
+                      ),
+                    ),
                   ),
-                  side: const BorderSide(
-                    color: MyColors.primary,
-                    width: 2,
+                  validator: (value) => Validator.isEmpty(value, context),
+                  onChanged: (value) {
+                    context.read<RegisterBloc>().password = value;
+                  },
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  obscureText: true,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecorations.authInputDecoration(
+                      hintText: "Telefono",
+                      labelText: 'Telefono',
+                      prefixIcon: Icons.phone),
+                  validator: (value) => Validator.isEmpty(value, context),
+                  onChanged: (value) {
+                    context.read<RegisterBloc>().phone = value;
+                  },
+                ),
+                const SizedBox(height: 30),
+                BounceInUp(
+                  duration: const Duration(milliseconds: 1000),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (!formKey.currentState!.validate()) return;
+                      context.read<RegisterBloc>().add(RegisterBtnPressed());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyColors.primary,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      minimumSize: Size(size.width * 0.8, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: BlocBuilder<RegisterBloc, RegisterState>(
+                      builder: (context, state) {
+                        if (state is RegisterLoading) {
+                          return const CircularProgressIndicator(
+                            color: Colors.white,
+                          );
+                        }
+
+                        return const Text("Registrarse",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontFamily: "poppins",
+                            ));
+                      },
+                    ),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Registrar con Google",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: MyColors.primary,
-                          fontFamily: "poppins",
-                        )),
-                    const SizedBox(width: 10),
-                    Image.asset(
-                      'assets/icons/google.png',
-                      width: 30,
-                    )
-                  ],
+                const SizedBox(height: 10),
+                BounceInUp(
+                  delay: const Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 1000),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context
+                          .read<RegisterBloc>()
+                          .add(RegisterBtnPressedGoogle());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      minimumSize: Size(size.width * 0.8, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      side: const BorderSide(
+                        color: MyColors.primary,
+                        width: 2,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        BlocBuilder<RegisterBloc, RegisterState>(
+                          builder: (context, state) {
+                            if (state is RegisterGoogleLoading) {
+                              return const CircularProgressIndicator(
+                                color: MyColors.primary,
+                              );
+                            }
+                            return const Text("Registrar con Google",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: MyColors.primary,
+                                  fontFamily: "poppins",
+                                ));
+                          },
+                        ),
+                        const SizedBox(width: 10),
+                        Image.asset(
+                          'assets/icons/google.png',
+                          width: 30,
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ));
+              ],
+            ));
+      },
+    );
   }
 }

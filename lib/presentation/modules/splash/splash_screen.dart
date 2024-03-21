@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../config/theme/app_theme.dart';
 import '../auth/login/bloc/login_bloc.dart';
@@ -52,77 +53,82 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    return  Scaffold(
-          backgroundColor: Colors.white,
-          body: SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: Stack(
-              children: [
-                //circulo grande
-                FondoSplasApp(displayedText: displayedText),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Stack(
+          children: [
+            //circulo grande
+            FondoSplasApp(displayedText: displayedText),
 
-                Positioned(
-                  left: 0,
-                  top: 470,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    width: size.width,
-                    child: Column(
-                      children: [
-                        const Text(
-                          "Encuentra tu libro y explora mundos infinitos",
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.black87,
-                            fontFamily: "poppins",
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          "Miles de libros en Gannar. Aprende cosas nuevas, explora diferentes ideas y amplia tus conocimientos.",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black54,
-                            fontFamily: "poppins",
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 50),
-                        BounceInUp(
-                          duration: const Duration(milliseconds: 1000),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              context.go("/login");
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: MyColors.primary,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              minimumSize: Size(size.width * 0.8, 50),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: const Text("Iniciar",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontFamily: "poppins",
-                                )),
-                          ),
-                        ),
-                      ],
+            Positioned(
+              left: 0,
+              top: 470,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                width: size.width,
+                child: Column(
+                  children: [
+                    const Text(
+                      "Encuentra tu libro y explora mundos infinitos",
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.black87,
+                        fontFamily: "poppins",
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Miles de libros en Gannar. Aprende cosas nuevas, explora diferentes ideas y amplia tus conocimientos.",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black54,
+                        fontFamily: "poppins",
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 50),
+                    BounceInUp(
+                      duration: const Duration(milliseconds: 1000),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          context.go("/login");
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          String usuario = prefs.getString('email') ?? "";
 
-                //btn de continuar
-              ],
+                          print('usuario: $usuario');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MyColors.primary,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          minimumSize: Size(size.width * 0.8, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: const Text("Iniciar",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontFamily: "poppins",
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-        );
+
+            //btn de continuar
+          ],
+        ),
+      ),
+    );
   }
 }
 

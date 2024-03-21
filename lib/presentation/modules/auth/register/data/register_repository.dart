@@ -6,7 +6,7 @@ class RegisterRepository {
   final databseReference = FirebaseFirestore.instance.collection('usuarios');
 
   Future<bool> registerUser(String email, String password, String name,
-      String photo, String token) async {
+      String photo,  String phone) async {
     try {
       String id = databseReference.doc().id;
 
@@ -18,7 +18,7 @@ class RegisterRepository {
         "photo": photo == ""
             ? "https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
             : photo,
-        "token": token
+        'phone': phone,
       });
       return true;
     } catch (e, s) {

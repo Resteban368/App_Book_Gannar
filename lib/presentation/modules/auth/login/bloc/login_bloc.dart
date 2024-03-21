@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_print
 
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
+import 'package:gannar/data/source/local/token_service.dart';
 import 'package:gannar/presentation/modules/auth/login/data/login_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
@@ -13,6 +16,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   LoginRepository loginRepository;
+
+  TokenService tokenService = TokenService();
 
   bool isVisibility = false;
   bool rememberPassword = false;
@@ -53,6 +58,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               true,
             );
           }
+          final token = generateToken();
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString('email', user.email);
+
+          tokenService.setToken(token);
           emit(LoginWithGoogleSuccess());
         } else {
           emit(LoginFailure());
@@ -77,6 +87,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             true,
           );
         }
+        final token = generateToken();
+        tokenService.setToken(token);
+
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('email', email);
+
         emit(LoginSuccess());
       } else {
         emit(LoginFailure());
@@ -126,5 +142,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     prefs.setString('email', email);
     prefs.setString('pass', pass);
     prefs.setBool('rememberMe', rememberMe);
+  }
+
+  String generateToken({int length = 32}) {
+    const chars =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final random = Random.secure();
+    return List.generate(length, (index) => chars[random.nextInt(chars.length)])
+        .join();
   }
 }

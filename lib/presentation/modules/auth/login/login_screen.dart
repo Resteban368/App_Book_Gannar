@@ -11,7 +11,6 @@ import 'package:go_router/go_router.dart';
 import '../../../../config/theme/decoration_form.dart';
 import '../widgets/authBackground.dart';
 import 'bloc/login_bloc.dart';
-import 'data/login_repository.dart';
 //importar paquete diseños
 
 class LoginScreen extends StatelessWidget {
