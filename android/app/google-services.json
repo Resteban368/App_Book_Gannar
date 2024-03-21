@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "942723313652",
+    "project_id": "gannar-a92de",
+    "storage_bucket": "gannar-a92de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942723313652:android:5cb5b4beb8031975b093a1",
+        "android_client_info": {
+          "package_name": "com.example.gannar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942723313652-bsgr1tq5k0gfgair5brohc8so0phssqu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gannar",
+            "certificate_hash": "f4888f76c934c131fa63e99ce98a589b61429fc1"
+          }
+        },
+        {
+          "client_id": "942723313652-rbbm204pgnp0po8p21olhdjlcbb0sihb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNSH-QJtbZ9CaPuByETXuxBVpX_Rvbd50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942723313652-rbbm204pgnp0po8p21olhdjlcbb0sihb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "942723313652-6gojr1csl8ijnvhtkm6pkcokvr2kpohd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gannar.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
