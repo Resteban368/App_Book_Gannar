@@ -50,6 +50,8 @@ dependencies:
   url_launcher: ^6.1.5
   connectivity_plus: ^5.0.2
   flutter_staggered_grid_view: ^0.7.0
+  flutter_launcher_icons: ^0.13.1
+
 
   rxdart: ^0.27.7
 
@@ -69,8 +71,15 @@ dev_dependencies:
     sdk: flutter
   isar_generator: ^3.1.0+1
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/libro.png"
+  adaptive_icon_background: "assets/icons/libro.png"
+
+
 # For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+# following page: https://dart.dev/tools/pclearub/pubspec
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is
