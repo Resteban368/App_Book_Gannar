@@ -1,6 +1,12 @@
 import 'dart:convert';
 
+import 'package:isar/isar.dart';
+
+part 'bookd.g.dart';
+
+@collection
 class BookDetail {
+    Id id = Isar.autoIncrement;
     String? error;
     String? title;
     String? subtitle;
@@ -15,7 +21,6 @@ class BookDetail {
     String? price;
     String? image;
     String? url;
-    Pdf? pdf;
 
     BookDetail({
         this.error,
@@ -32,7 +37,6 @@ class BookDetail {
         this.price,
         this.image,
         this.url,
-        this.pdf,
     });
 
     factory BookDetail.fromJson(String str) => BookDetail.fromMap(json.decode(str));
@@ -54,7 +58,6 @@ class BookDetail {
         price: json["price"],
         image: json["image"],
         url: json["url"],
-        pdf: json["pdf"] == null ? null : Pdf.fromMap(json["pdf"]),
     );
 
     Map<String, dynamic> toMap() => {
@@ -72,30 +75,5 @@ class BookDetail {
         "price": price,
         "image": image,
         "url": url,
-        "pdf": pdf?.toMap(),
-    };
-}
-
-class Pdf {
-    String? chapter2;
-    String? chapter5;
-
-    Pdf({
-        this.chapter2,
-        this.chapter5,
-    });
-
-    factory Pdf.fromJson(String str) => Pdf.fromMap(json.decode(str));
-
-    String toJson() => json.encode(toMap());
-
-    factory Pdf.fromMap(Map<String, dynamic> json) => Pdf(
-        chapter2: json["Chapter 2"],
-        chapter5: json["Chapter 5"],
-    );
-
-    Map<String, dynamic> toMap() => {
-        "Chapter 2": chapter2,
-        "Chapter 5": chapter5,
     };
 }

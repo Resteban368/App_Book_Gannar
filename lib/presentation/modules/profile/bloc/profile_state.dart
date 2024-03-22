@@ -30,3 +30,9 @@ final class ProfilePhotoUpdated extends ProfileState {
 }
 
 final class ProfilePhotoUpdateError extends ProfileState {}
+
+
+
+class CloseSessionState extends ProfileState {
+  CloseSessionState();
+}

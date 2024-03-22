@@ -9,3 +9,7 @@ class LoadProfile extends ProfileEvent {
 
 //evento editar perfil
 class EditProfile extends ProfileEvent {}
+
+
+//evento para cerrar sesion
+class CloseSession extends ProfileEvent {}

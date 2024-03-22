@@ -4,13 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gannar/presentation/blocs/bloc/local_storage_bloc.dart';
 import 'package:gannar/presentation/blocs/theme/theme_bloc.dart';
-import 'package:gannar/presentation/modules/auth/login/bloc/login_bloc.dart';
 import 'package:gannar/presentation/modules/profile/bloc/profile_bloc.dart';
 import 'package:gannar/presentation/modules/profile/data/profile_repository.dart';
 
 import 'config/router/app_router.dart';
 import 'config/theme/app_theme.dart';
+import 'data/source/local/local_repository.dart';
 import 'data/source/network/api/api_request_service.dart';
 import 'data/source/network/api/http_response_handler.dart';
 import 'firebase_options.dart';
@@ -24,6 +25,7 @@ void main() async {
     ));
     // com.example.gannar
   }
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -37,15 +39,20 @@ class AppState extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeBloc()),
-        BlocProvider(create: (_) => ProfileBloc(ProfileRepository()))
+        BlocProvider(create: (_) => ProfileBloc(ProfileRepository())),
+        BlocProvider(
+            create: (_) =>
+                LocalStorageBloc(repository: LocalStorageRepository())),
       ],
-      child: const MyApp(),
+      child: const MyAppMaterial(),
     );
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyAppMaterial extends StatelessWidget {
+  const MyAppMaterial({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +76,7 @@ class MyApp extends StatelessWidget {
               unencodePath: '/1.0',
               httpHandler: HttpResponseHandler(context),
             );
+
             return navigator!;
           },
         );

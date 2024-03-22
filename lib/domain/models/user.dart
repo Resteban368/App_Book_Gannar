@@ -6,7 +6,6 @@ class User {
     String? password;
     String? name;
     String? photo;
-    String? token;
     String? phone;
 
     User({
@@ -14,7 +13,6 @@ class User {
         this.password,
         this.name,
         this.photo,
-        this.token,
         this.phone,
     });
 
@@ -27,7 +25,6 @@ class User {
         password: json["password"],
         name: json["name"],
         photo: json["photo"],
-        token: json["token"],
         phone: json["phone"],
     );
 
@@ -36,7 +33,6 @@ class User {
         "password": password,
         "name": name,
         "photo": photo,
-        "token": token,
         "phone": phone,
     };
 }

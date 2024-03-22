@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gannar/presentation/modules/profile/bloc/profile_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/theme/app_theme.dart';
@@ -46,10 +47,8 @@ class ConfigProfile extends StatelessWidget {
                               minimumSize: const Size(double.infinity, 40),
                             ),
                             onPressed: () {
-                              context.go("/login");
-                              // context.read<SplashBloc>().add(CloseSession());
-                              // //limpiamos el profile bloc
-                              // context.read<ProfileBloc>().add(ClearProfile());
+                              context.read<ProfileBloc>().add(CloseSession());
+                              context.go("/");
                             },
                             child: const Text(
                               "Cerrar Sesion",

@@ -29,6 +29,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       isEdit = !isEdit;
       emit(EditButton(isEdit));
     });
+    on<CloseSession>((event, emit) async {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('email', '');
+      prefs.setString('password', '');
+      prefs.setBool('rememberMe', false);
+      tokenService.cleanToken();
+      emit(CloseSessionState());
+    });
   }
 
   void _onLoadProfile(LoadProfile event, Emitter<ProfileState> emit) async {

@@ -4,7 +4,7 @@ import 'package:gannar/domain/models/new_response_model.dart';
 
 import '../../../../domain/books_response_model.dart';
 import '../../../../domain/models/book.dart';
-import '../../../../presentation/modules/book/model/book_detail_model.dart';
+import '../../../../presentation/modules/book/model/bookd.dart';
 import '../api/api_request_service.dart';
 
 class AppRepository {

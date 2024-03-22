@@ -6,6 +6,7 @@ import 'package:gannar/presentation/modules/book/bloc/book_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/theme/text_style.dart';
+import '../../blocs/bloc/local_storage_bloc.dart';
 
 class BookDetailScreen extends StatelessWidget {
   const BookDetailScreen({Key? key}) : super(key: key);
@@ -67,11 +68,10 @@ class BookDetailScreen extends StatelessWidget {
                             )),
                         const SizedBox(height: 10),
                         ElevatedButton(
-                            onPressed: () async{
-
+                            onPressed: () async {
                               // ignore: deprecated_member_use
-                              await launch(context.read<BookBloc>().book.url ?? "");
-
+                              await launch(
+                                  context.read<BookBloc>().book.url ?? "");
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: MyColors.primary,
@@ -82,7 +82,8 @@ class BookDetailScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                            child: const Text("Ver mas", style: TextStyles.medium)),
+                            child: const Text("Ver mas",
+                                style: TextStyles.medium)),
                         const SizedBox(height: 40),
                       ],
                     );
@@ -139,45 +140,6 @@ class BookDetailScreen extends StatelessWidget {
     );
   }
 }
-
-// class ImgBook extends StatelessWidget {
-//   const ImgBook({
-//     super.key,
-//     required this.size,
-//   });
-
-//   final Size size;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Positioned(
-//       top: size.height * 0.15,
-//       left: size.width * 0.25,
-//       child: Container(
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(20),
-//           boxShadow: [
-//             BoxShadow(
-//               color: Colors.black.withOpacity(0.3),
-//               spreadRadius: 5,
-//               blurRadius: 7,
-//               offset: const Offset(0, 3),
-//             ),
-//           ],
-//         ),
-//         child: ClipRRect(
-//           borderRadius: BorderRadius.circular(20),
-//           child: Image.network(
-//             "https://es.web.img3.acsta.net/pictures/24/03/06/16/05/5342408.jpg",
-//             fit: BoxFit.fill,
-//             width: 200,
-//             height: 300,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class _BookDetails extends StatelessWidget {
   const _BookDetails();
@@ -323,37 +285,37 @@ class _CustomSliverAppBar extends StatelessWidget {
               ]))),
             ),
 
-            //poner btn para guardar en favoritos
-            // Positioned(
-            //   top: 50,
-            //   right: 10,
-            //   child: BlocBuilder<LocalStorageBloc, LocalStorageState>(
-            //     builder: (context, state) {
-            //       // Despacha un evento para verificar si la película es favorita
-            //       BlocProvider.of<LocalStorageBloc>(context)
-            //           .add(CheckFavoriteEvent(movieId: movie.id));
-            //       return IconButton(
-            //         onPressed: () {
-            //           // Despacha un evento para agregar o eliminar la película de favoritos
-            //           BlocProvider.of<LocalStorageBloc>(context)
-            //               .add(ToggleFavoriteEvent(movie: movie));
-            //         },
-            //         icon: Icon(
-            //           // Utiliza un ícono lleno o vacío según el estado de favorito
-            //           state is LocalStorageCheckedFavorite && state.isFavorite
-            //               ? Icons.favorite //esta en favorito
-            //               : Icons.favorite_border, //no esta en favorito
-            //         ),
-            //         color: state is CheckFavoriteEvent
-            //             ? Colors.red // Cargando
-            //             : state is LocalStorageCheckedFavorite &&
-            //                     state.isFavorite
-            //                 ? Colors.red //esta en favorito
-            //                 : Colors.white, //no esta en favorito
-            //       );
-            //     },
-            //   ),
-            // ),
+            // poner btn para guardar en favoritos
+            Positioned(
+              top: 50,
+              right: 10,
+              child: BlocBuilder<LocalStorageBloc, LocalStorageState>(
+                builder: (context, state) {
+                  return IconButton(
+                    onPressed: () {
+                      context.read<LocalStorageBloc>().id = int.parse(
+                          context.read<BookBloc>().book.isbn13 ?? "0");
+
+                      // Despacha un evento para agregar o eliminar la película de favoritos
+                      context.read<LocalStorageBloc>()
+                          .add(ToggleFavoriteEvent(book: context.read<BookBloc>().book));
+                    },
+                    icon: Icon(
+                      // Utiliza un ícono lleno o vacío según el estado de favorito
+                      state is LocalStorageCheckedFavorite && state.isFavorite
+                          ? Icons.favorite //esta en favorito
+                          : Icons.favorite_border, //no esta en favorito
+                    ),
+                    color: state is CheckFavoriteEvent
+                        ? Colors.red // Cargando
+                        : state is LocalStorageCheckedFavorite &&
+                                state.isFavorite
+                            ? Colors.red //esta en favorito
+                            : Colors.white, //no esta en favorito
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

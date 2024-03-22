@@ -3,7 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:gannar/data/source/network/repository/app_repository.dart';
 
-import '../model/book_detail_model.dart';
+import '../model/bookd.dart';
 
 part 'book_event.dart';
 part 'book_state.dart';
